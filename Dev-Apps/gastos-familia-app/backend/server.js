@@ -270,13 +270,19 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`
 ╔════════════════════════════════════════╗
-║   Gastos Família - Backend Server      ║
+║   Gastos Família - Backend Server v2   ║
 ╠════════════════════════════════════════╣
 ║  🚀 Servidor rodando                   ║
 ║  📍 http://localhost:${port}               ║
 ║  🌍 Ambiente: ${nodeEnv}                  ║
+║  📂 Backend: ${backendDir}               ║
+║  📂 Src: ${srcDir}                       ║
 ╠════════════════════════════════════════╣
 ║  Endpoints:                            ║
+║  GET  /                                ║
+║  GET  /index.html                      ║
+║  GET  /checkout.html                   ║
+║  GET  /admin.html                      ║
 ║  POST /api/create-payment-intent      ║
 ║  POST /api/create-subscription        ║
 ║  POST /api/cancel-subscription        ║
@@ -285,6 +291,8 @@ app.listen(port, () => {
 ║  GET  /api/approved-pix-confirmations ║
 ║  POST /api/approve-pix                ║
 ║  GET  /health                         ║
+║  GET  /debug                          ║
+║  GET  /sync                           ║
 ╚════════════════════════════════════════╝
   `);
 });
