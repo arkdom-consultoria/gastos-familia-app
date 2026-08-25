@@ -118,6 +118,7 @@ const indexHTML = `<!doctype html>
 
 // Rotas explícitas para HTML
 app.get('/', (req, res) => {
+  console.log('📄 GET / - Servindo index.html');
   const filePath = path.join(backendDir, 'index.html');
   if (fs.existsSync(filePath)) {
     res.sendFile(filePath);
