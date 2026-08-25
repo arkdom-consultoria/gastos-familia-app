@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gastos Família</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+            color: #e6edf3;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #58a6ff, #79c0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p {
+            color: #8b949e;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .status {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #30363d;
+        }
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        .status-label {
+            color: #8b949e;
+        }
+        .status-value {
+            color: #3fb950;
+            font-weight: bold;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #30363d;
+            border-top-color: #58a6ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">💰</div>
+    <h1>Gastos Família</h1>
+    <p>Iniciando aplicação...</p>
+
+    <div class="status">
+        <div class="status-item">
+            <span class="status-label">Servidor</span>
+            <span class="status-value"><span class="loading"></span>Conectando...</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">Banco de Dados</span>
+            <span class="status-value">Aguardando...</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">Pagamentos</span>
+            <span class="status-value">Pronto</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Verificar se o backend está respondendo
+    fetch('/health')
+        .then(res => res.json())
+        .then(data => {
+            console.log('✅ Backend conectado:', data);
+            // Carregar a app real após 2 segundos
+            setTimeout(() => {
+                window.location.href = '/index.html';
+            }, 1500);
+        })
+        .catch(err => {
+            console.error('❌ Erro ao conectar:', err);
+            document.querySelector('.status-value').innerHTML = '❌ Erro de conexão';
+            setTimeout(() => {
+                location.reload();
+            }, 3000);
+        });
+</script>
+</body>
+</html>

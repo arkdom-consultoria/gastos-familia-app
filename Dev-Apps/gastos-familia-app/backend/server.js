@@ -56,6 +56,14 @@ app.use((req, res, next) => {
   next();
 });
 
+// Middleware que redireciona / para /index.html
+app.use((req, res, next) => {
+  if (req.path === '/' && req.method === 'GET') {
+    return res.redirect(301, '/index.html');
+  }
+  next();
+});
+
 // ============================================
 // ROTAS DE ARQUIVOS ESTÁTICOS (HTML, CSS, JS)
 // ============================================
