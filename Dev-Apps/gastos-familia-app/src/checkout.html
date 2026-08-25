@@ -360,7 +360,7 @@
         <div class="success-icon">✅</div>
         <h2>Pagamento Confirmado!</h2>
         <p>Sua assinatura foi ativada com sucesso.<br>Você terá acesso completo por 12 meses.</p>
-        <button class="btn-primary" onclick="window.location.href='file:///Users/mh/Dev-Apps/gastos-familia-app/src/index.html'" style="grid-column: auto; width: 100%; margin-top: 20px;">
+        <button class="btn-primary" onclick="window.location.href=window.location.origin + '/index.html'" style="grid-column: auto; width: 100%; margin-top: 20px;">
           Voltar ao App
         </button>
       </div>
@@ -599,7 +599,7 @@
 
     async function sendPixConfirmation(code, email) {
       try {
-        await fetch('http://localhost:3001/api/pix-confirmation', {
+        await fetch(`${window.location.origin}/api/pix-confirmation`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -657,7 +657,7 @@
 
       try {
         // 1. Criar Payment Intent
-        const intentResponse = await fetch('http://localhost:3001/api/create-payment-intent', {
+        const intentResponse = await fetch(`${window.location.origin}/api/create-payment-intent`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
