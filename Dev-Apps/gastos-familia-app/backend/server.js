@@ -66,9 +66,18 @@ app.use('/css', express.static(path.join(srcDir, 'css'))); // CSS
 app.use('/js', express.static(path.join(srcDir, 'js'))); // JavaScript
 app.use('/icons', express.static(path.join(srcDir, 'icons'))); // Ícones
 
-// Rotas explícitas para HTML (fallback)
+// Rotas explícitas para HTML (ANTES das rotas de API)
+app.get('/', (req, res) => {
+  const filePath = path.join(backendDir, 'index.html');
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).json({ error: 'index.html não encontrado', path: filePath });
+  }
+});
+
 app.get('/index.html', (req, res) => {
-  const filePath = path.join(srcDir, 'index.html');
+  const filePath = path.join(backendDir, 'index.html');
   if (fs.existsSync(filePath)) {
     res.sendFile(filePath);
   } else {
