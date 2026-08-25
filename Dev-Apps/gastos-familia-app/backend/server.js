@@ -32,10 +32,10 @@ require('dotenv').config();
 // Force git pull on startup
 try {
   console.log('🔄 Força sincronização com GitHub...');
-  execSync('git pull origin main --force 2>/dev/null', { cwd: path.resolve(__dirname, '..') });
-  console.log('✅ Sincronização concluída');
+  const result = execSync('git pull origin main 2>&1', { cwd: path.resolve(__dirname, '..'), encoding: 'utf8' });
+  console.log('✅ Sincronização concluída:', result);
 } catch (e) {
-  console.log('⚠️ Git pull não disponível, continuando...');
+  console.log('⚠️ Git pull falhou:', e.message);
 }
 
 const { port, nodeEnv } = require('./config');
