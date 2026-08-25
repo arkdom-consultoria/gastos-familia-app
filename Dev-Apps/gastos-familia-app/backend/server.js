@@ -59,9 +59,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// Servir arquivos estáticos
-app.use(express.static(backendDir)); // Servir admin.html, etc da pasta backend
+// Servir arquivos estáticos com tipos corretos
+app.use(express.static(backendDir)); // Servir admin.html, index.html, etc da pasta backend
 app.use(express.static(srcDir)); // Servir index.html, checkout.html, etc da pasta src
+app.use('/css', express.static(path.join(srcDir, 'css'))); // CSS
+app.use('/js', express.static(path.join(srcDir, 'js'))); // JavaScript
+app.use('/icons', express.static(path.join(srcDir, 'icons'))); // Ícones
 
 // Rotas explícitas para HTML (fallback)
 app.get('/index.html', (req, res) => {

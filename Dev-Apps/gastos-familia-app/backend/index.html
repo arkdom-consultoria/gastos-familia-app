@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Gastos Família — Controle na palma da mão</title>
+<meta name="description" content="Controle de gastos familiares: fixas, rotina e eventuais, tudo em um painel simples.">
+<meta name="theme-color" content="#0f1117">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gastos Família">
+<link rel="manifest" href="manifest.webmanifest?v=20260824e">
+<link rel="icon" href="icons/icon-512.png?v=20260824e" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=20260824e">
+<link rel="stylesheet" href="css/style.css?v=20260824e">
+</head>
+<body>
+<div id="app" style="display:none">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">R$</div>
+      <div class="brand-text">
+        <h1>Gastos Família</h1>
+        <span>Controle na palma da mão</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="nav-ajustes-shortcut" onclick="switchView('ajustes')">⚙️</button>
+    </div>
+  </header>
+
+  <main id="views">
+    <section class="view" id="view-dashboard"></section>
+    <section class="view" id="view-evolucao"></section>
+    <section class="view" id="view-orcamento"></section>
+    <section class="view" id="view-lancamentos"></section>
+    <section class="view" id="view-categorias"></section>
+    <section class="view" id="view-ajustes"></section>
+  </main>
+
+  <button class="fab" id="fab-add" aria-label="Adicionar lançamento">+</button>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <button class="nav-item active" data-view="dashboard">
+        <span class="glyph">📊</span><span>Painel</span>
+      </button>
+      <button class="nav-item" data-view="orcamento">
+        <span class="glyph">🎯</span><span>Orçamento</span>
+      </button>
+      <button class="nav-item" data-view="lancamentos">
+        <span class="glyph">🧾</span><span>Lançamentos</span>
+      </button>
+      <button class="nav-item" data-view="categorias">
+        <span class="glyph">🏷️</span><span>Categorias</span>
+      </button>
+      <button class="nav-item" data-view="ajustes">
+        <span class="glyph">⚙️</span><span>Ajustes</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="sheet-overlay" id="sheet-overlay">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div id="sheet-body"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/license-config.js?v=20260824e"></script>
+<script src="js/supabase-adapter.js?v=20260824e"></script>
+<script src="js/seed-data.js?v=20260824e"></script>
+<script src="js/charts.js?v=20260824e"></script>
+<script src="js/app.js?v=20260824e"></script>
+<script src="js/ui.js?v=20260824e"></script>
+</body>
+</html>
