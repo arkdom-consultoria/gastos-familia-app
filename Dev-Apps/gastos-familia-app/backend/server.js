@@ -126,6 +126,18 @@ app.get('/debug', (req, res) => {
   res.json(debugInfo);
 });
 
+// Sync route (para forçar atualização no Replit)
+app.get('/sync', (req, res) => {
+  const { execSync } = require('child_process');
+  try {
+    console.log('🔄 Sincronizando com GitHub...');
+    execSync('git pull origin main', { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
+    res.json({ status: 'synced', message: 'Repositório sincronizado com sucesso' });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message });
+  }
+});
+
 // ============================================
 // TRATAMENTO DE ERROS
 // ============================================
