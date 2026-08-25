@@ -41,11 +41,8 @@ const backendDir = __dirname;
 const srcDir = path.resolve(__dirname, '../src');
 
 // ============================================
-// MIDDLEWARE
+// MIDDLEWARE BASE
 // ============================================
-
-// IMPORTANTE: Webhook do Stripe antes de express.json()
-app.use('/api/webhook', webhooksRouter);
 
 app.use(express.json());
 app.use(cors({
@@ -59,53 +56,40 @@ app.use((req, res, next) => {
   next();
 });
 
-// Servir arquivos estáticos com tipos corretos
-app.use(express.static(backendDir)); // Servir admin.html, index.html, etc da pasta backend
-app.use(express.static(srcDir)); // Servir index.html, checkout.html, etc da pasta src
-app.use('/css', express.static(path.join(srcDir, 'css'))); // CSS
-app.use('/js', express.static(path.join(srcDir, 'js'))); // JavaScript
-app.use('/icons', express.static(path.join(srcDir, 'icons'))); // Ícones
+// ============================================
+// ROTAS DE ARQUIVOS ESTÁTICOS (HTML, CSS, JS)
+// ============================================
 
-// Rotas explícitas para HTML (ANTES das rotas de API)
+// Rotas explícitas para HTML
 app.get('/', (req, res) => {
-  const filePath = path.join(backendDir, 'index.html');
-  if (fs.existsSync(filePath)) {
-    res.sendFile(filePath);
-  } else {
-    res.status(404).json({ error: 'index.html não encontrado', path: filePath });
-  }
+  res.sendFile(path.join(backendDir, 'index.html'));
 });
 
 app.get('/index.html', (req, res) => {
-  const filePath = path.join(backendDir, 'index.html');
-  if (fs.existsSync(filePath)) {
-    res.sendFile(filePath);
-  } else {
-    res.status(404).json({ error: 'index.html não encontrado', path: filePath });
-  }
+  res.sendFile(path.join(backendDir, 'index.html'));
 });
 
 app.get('/checkout.html', (req, res) => {
-  const filePath = path.join(srcDir, 'checkout.html');
-  if (fs.existsSync(filePath)) {
-    res.sendFile(filePath);
-  } else {
-    res.status(404).json({ error: 'checkout.html não encontrado', path: filePath });
-  }
+  res.sendFile(path.join(srcDir, 'checkout.html'));
 });
 
 app.get('/admin.html', (req, res) => {
-  const filePath = path.join(backendDir, 'admin.html');
-  if (fs.existsSync(filePath)) {
-    res.sendFile(filePath);
-  } else {
-    res.status(404).json({ error: 'admin.html não encontrado', path: filePath });
-  }
+  res.sendFile(path.join(backendDir, 'admin.html'));
 });
 
+// Servir arquivos estáticos (CSS, JS, Icons, etc)
+app.use(express.static(backendDir));
+app.use(express.static(srcDir));
+app.use('/css', express.static(path.join(srcDir, 'css')));
+app.use('/js', express.static(path.join(srcDir, 'js')));
+app.use('/icons', express.static(path.join(srcDir, 'icons')));
+
 // ============================================
-// ROTAS
+// ROTAS DE API
 // ============================================
+
+// Webhook ANTES de JSON parser
+app.use('/api/webhook', webhooksRouter);
 
 app.use('/api', paymentsRouter);
 app.use('/api', subscriptionsRouter);
