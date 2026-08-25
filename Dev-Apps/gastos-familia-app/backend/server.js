@@ -24,6 +24,8 @@
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const { port, nodeEnv } = require('./config');
@@ -34,6 +36,10 @@ const webhooksRouter = require('./routes/webhooks');
 
 const app = express();
 
+// Definir caminhos absolutos
+const backendDir = __dirname;
+const srcDir = path.resolve(__dirname, '../src');
+
 // ============================================
 // MIDDLEWARE
 // ============================================
@@ -42,8 +48,6 @@ const app = express();
 app.use('/api/webhook', webhooksRouter);
 
 app.use(express.json());
-app.use(express.static(__dirname)); // Servir arquivos estáticos (admin.html, etc)
-app.use(express.static(require('path').join(__dirname, '../src'))); // Servir arquivos da pasta src
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:8080',
   credentials: true
@@ -53,6 +57,38 @@ app.use(cors({
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} ${req.method} ${req.path}`);
   next();
+});
+
+// Servir arquivos estáticos
+app.use(express.static(backendDir)); // Servir admin.html, etc da pasta backend
+app.use(express.static(srcDir)); // Servir index.html, checkout.html, etc da pasta src
+
+// Rotas explícitas para HTML (fallback)
+app.get('/index.html', (req, res) => {
+  const filePath = path.join(srcDir, 'index.html');
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).json({ error: 'index.html não encontrado', path: filePath });
+  }
+});
+
+app.get('/checkout.html', (req, res) => {
+  const filePath = path.join(srcDir, 'checkout.html');
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).json({ error: 'checkout.html não encontrado', path: filePath });
+  }
+});
+
+app.get('/admin.html', (req, res) => {
+  const filePath = path.join(backendDir, 'admin.html');
+  if (fs.existsSync(filePath)) {
+    res.sendFile(filePath);
+  } else {
+    res.status(404).json({ error: 'admin.html não encontrado', path: filePath });
+  }
 });
 
 // ============================================
