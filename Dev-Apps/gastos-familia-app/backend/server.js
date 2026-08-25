@@ -43,6 +43,7 @@ app.use('/api/webhook', webhooksRouter);
 
 app.use(express.json());
 app.use(express.static(__dirname)); // Servir arquivos estáticos (admin.html, etc)
+app.use(express.static(require('path').join(__dirname, '../src'))); // Servir arquivos da pasta src
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:8080',
   credentials: true
@@ -61,11 +62,6 @@ app.use((req, res, next) => {
 app.use('/api', paymentsRouter);
 app.use('/api', subscriptionsRouter);
 app.use('/api', adminRouter);
-
-// Servir checkout.html
-app.get('/checkout.html', (req, res) => {
-  res.sendFile(require('path').join(__dirname, '../src/checkout.html'));
-});
 
 // Health check
 app.get('/health', (req, res) => {
