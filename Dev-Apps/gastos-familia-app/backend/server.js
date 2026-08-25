@@ -227,6 +227,15 @@ app.get('/sync', (req, res) => {
   }
 });
 
+// Hard restart route (mata e reinicia tudo)
+app.get('/restart', (req, res) => {
+  res.json({ status: 'restarting', message: 'Servidor reiniciando em 2 segundos...' });
+  setTimeout(() => {
+    console.log('💥 RESTART FORÇADO!');
+    process.exit(1);
+  }, 2000);
+});
+
 // ============================================
 // TRATAMENTO DE ERROS
 // ============================================
