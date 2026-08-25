@@ -26,7 +26,17 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const { execSync } = require('child_process');
 require('dotenv').config();
+
+// Force git pull on startup
+try {
+  console.log('🔄 Força sincronização com GitHub...');
+  execSync('git pull origin main --force 2>/dev/null', { cwd: path.resolve(__dirname, '..') });
+  console.log('✅ Sincronização concluída');
+} catch (e) {
+  console.log('⚠️ Git pull não disponível, continuando...');
+}
 
 const { port, nodeEnv } = require('./config');
 const paymentsRouter = require('./routes/payments');
