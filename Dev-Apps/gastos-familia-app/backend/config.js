@@ -26,10 +26,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY
 );
 
-// Verificar conexão (não bloqueia inicialização)
-supabase.auth.admin.listUsers()
-  .then(() => console.log('✅ Supabase conectado'))
-  .catch(err => console.warn('⚠️ Aviso ao conectar Supabase:', err.message));
+// Conexão verificada sob demanda (não bloqueia inicialização)
 
 module.exports = {
   supabase,
