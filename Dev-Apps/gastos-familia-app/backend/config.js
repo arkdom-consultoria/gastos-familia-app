@@ -13,18 +13,22 @@ const requiredEnvVars = [
   'STRIPE_SECRET_KEY'
 ];
 
-requiredEnvVars.forEach(varName => {
-  if (!process.env[varName]) {
-    console.error(`❌ Variável de ambiente não encontrada: ${varName}`);
-    process.exit(1);
-  }
-});
+const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+if (missingVars.length > 0) {
+  console.warn(`⚠️ Variáveis de ambiente faltando: ${missingVars.join(', ')}`);
+  console.warn('⚠️ Funcionalidades de pagamento/database podem não funcionar');
+}
 
 // Supabase Client (usar Service Key para operações do servidor)
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
+let supabase = null;
+if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_KEY) {
+  supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+  );
+} else {
+  console.warn('⚠️ Supabase não configurado - operações de database indisponíveis');
+}
 
 // Conexão verificada sob demanda (não bloqueia inicialização)
 
