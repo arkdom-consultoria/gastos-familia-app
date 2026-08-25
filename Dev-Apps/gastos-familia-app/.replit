@@ -1,0 +1,11 @@
+run = "cd backend && npm install && npm run dev"
+modules = ["nodejs-20"]
+
+[nix]
+channel = "stable-24_05"
+
+[env]
+NODE_ENV = "production"
+
+[unitTest]
+language = "nodejs"
