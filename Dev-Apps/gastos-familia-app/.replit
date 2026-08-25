@@ -1,11 +1,26 @@
-run = "bash backend/startup.sh"
+run = """
+cd /root/gastos-familia-app 2>/dev/null || cd /home/runner/gastos-familia-app 2>/dev/null || cd . && \
+echo "🔄 Sincronizando código..." && \
+git pull origin main --force 2>/dev/null || true && \
+echo "📦 Instalando dependências..." && \
+cd backend && npm install --omit=dev 2>/dev/null && \
+echo "✅ Tudo pronto! Iniciando..." && \
+npm start
+"""
+
 modules = ["nodejs-20"]
+entrypoint = "backend/server.js"
 
 [nix]
 channel = "stable-24_05"
 
 [env]
 NODE_ENV = "production"
+PORT = "5000"
 
 [unitTest]
 language = "nodejs"
+
+[packager]
+language = "nodejs"
+ignoredPaths = [".git", "node_modules"]
