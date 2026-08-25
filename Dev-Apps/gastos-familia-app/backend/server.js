@@ -101,7 +101,26 @@ app.use('/api', adminRouter);
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    backend_dir: backendDir,
+    src_dir: srcDir,
+    index_html_exists: fs.existsSync(path.join(srcDir, 'index.html')),
+    checkout_html_exists: fs.existsSync(path.join(srcDir, 'checkout.html')),
+    admin_html_exists: fs.existsSync(path.join(backendDir, 'admin.html'))
+  });
+});
+
+// Debug route
+app.get('/debug', (req, res) => {
+  const debugInfo = {
+    backendDir,
+    srcDir,
+    files_in_backend: fs.readdirSync(backendDir).filter(f => f.endsWith('.html')),
+    files_in_src: fs.readdirSync(srcDir).filter(f => f.endsWith('.html'))
+  };
+  res.json(debugInfo);
 });
 
 // ============================================
