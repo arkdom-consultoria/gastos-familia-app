@@ -1,6 +1,6 @@
-run = "cd backend && node app.js"
+run = "cd backend && npm start"
 modules = ["nodejs-20"]
-entrypoint = "backend/app.js"
+entrypoint = "backend/server.js"
 
 [nix]
 channel = "stable-24_05"
